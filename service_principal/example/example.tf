@@ -1,30 +1,10 @@
-module "regions" {
-  source  = "Azure/regions/azurerm"
-  version = "~> 0.3"
-}
-
-# This allows us to randomize the region for the resource group.
-resource "random_integer" "region_index" {
-  max = length(module.regions.regions) - 1
-  min = 0
-}
-
-# This ensures we have unique CAF compliant names for our resources.
-module "naming" {
-  source  = "Azure/naming/azurerm"
-  version = "~> 0.3"
-}
-
-# This is required for resource modules
-resource "azurerm_resource_group" "this" {
-  location = module.regions.regions[random_integer.region_index.result].name
-  name     = module.naming.resource_group.name_unique
-}
-
-###### Module starts here #######
 module "service-principal" {
-  source = "git::https://github.com/mosowaz/terraform-azuredevops-modules/tree/main/service_principal?ref=v1.3.0"
+  source = "git::https://github.com/mosowaz/terraform-azuredevops-modules/tree/main/service_principal/terraform?ref=v1.3.0"
 
+  resource_group = {
+    name     = "service_principal"
+    location = "canadacentral"
+  }
 
   use_secret      = true
   use_oidc        = true

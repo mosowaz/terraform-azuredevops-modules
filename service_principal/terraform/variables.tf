@@ -3,11 +3,7 @@ variable "resource_group" {
     name     = string
     location = string
   })
-  default = {
-    name     = "service_principal_and_identity"
-    location = "canadacentral"
-  }
-  description = "(Optional) Name and location of resource group"
+  description = "(Required) Name and location of resource group"
 }
 
 variable "use_secret" {
